@@ -1,1 +1,1 @@
-# WEEK 01 PPP 3rd-cohort
+# WEEK-01 Plutus Pioneer Program (3rd cohort)
