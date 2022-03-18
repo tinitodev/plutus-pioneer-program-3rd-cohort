@@ -24,14 +24,10 @@ The Haskell libraries in the Plutus Platform are built with Cabal and Nix. The o
 
     Adding the IOHK binary cache to your Nix configuration will speed up
     builds a lot, since many things will have been built already by their CI.
+    If you find you are building packages that are not defined in the 
+    plutus-apps repository or if the build seems to take a very long time then you may not have this set up properly.
 
-    If you find you are building packages that are not defined in this
-    repository, or if the build seems to take a very long time then you may
-    not have this set up properly.
-
-    To set up the cache:
-
-    On non-NixOS, edit `/etc/nix/nix.conf` and add the following lines:
+    To setup the cache on non-NixOS, edit `/etc/nix/nix.conf` and add the following lines:
 
     ```
     substituters        = https://hydra.iohk.io https://iohk.cachix.org https://cache.nixos.org/
