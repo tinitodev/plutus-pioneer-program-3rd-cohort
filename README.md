@@ -37,6 +37,13 @@ The Haskell libraries in the Plutus Platform are built with Cabal and Nix. The o
     If you don't have an `/etc/nix/nix.conf` or don't want to edit it, you may add the `nix.conf` lines to `~/.config/nix/nix.conf` instead.
     You must be a [trusted user](https://nixos.org/nix/manual/#ssec-multi-user) to do this.
 
+3. Clone main repos
+
+    ```
+    $ cd ~/workspace/
+    $ git clone https://github.com/input-output-hk/plutus-apps.git
+    $ git clone https://github.com/input-output-hk/plutus-pioneer-program.git
+    ```
 
 ## Weekly Steps
 
