@@ -1,6 +1,6 @@
 # WEEK-01 Plutus Pioneer Program (3rd cohort)
 
-### (E)UTxO Model
+## (E)UTxO Model
 
 A utxo (as input) has to be consumed entirely, you cannot consume only part of one utxo.
 However you can always create an output with the change.
