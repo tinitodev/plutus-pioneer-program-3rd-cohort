@@ -39,10 +39,35 @@ validator = mkValidatorScript $$(PlutusTx.compile [|| mkValidator ||])
 where the oxford brackets ``[|| mkValidator ||]`` takes a haskell expresion, (the source code of mkValidator) and turns it into something of type syntax tree of that expresion and then the splice ``$$`` takes a syntax tree and 'splices' it into source code at that point.
 
 So, \
-```mkValidator``` is haskell source code, a haskell expresion, \
-``[|| mkValidator ||]`` is of type haskell code syntax tree, \
-``PlutusTx.compile [|| mkValidator ||]`` is of type PlutusCore syntax tree, \
+``mkValidator`` -> is haskell source code, a haskell expresion, \
+``[|| mkValidator ||]`` -> is of type haskell code syntax tree, \
+``PlutusTx.compile [|| mkValidator ||]`` -> is of type PlutusCore syntax tree, \
 and \
-``$$(PlutusTx.compile [|| mkValidator ||])`` is of type PlutusCore source code, PlutusCore expresion. \
+``$$(PlutusTx.compile [|| mkValidator ||])`` -> is of type PlutusCore source code, PlutusCore expresion. \
 Finally, \
-``mkValidatorScript`` takes that PlutusCore expresion and turns it into a ```Validator```.
+``mkValidatorScript`` takes that PlutusCore expresion and turns it into a ``Validator``.
+
+In order for the oxford brackets ``[|| mkValidator ||]`` to work, mkValidator has to be definded inline, meaning it cannot reference auxiliar functions or expresions from other parts of the code (like libraries, etc). For that reason we need to add the following <i>Pragma</i> to the definition so everything is defined inline:
+
+```
+{-# INLINABLE mkValidator #-} <-- add this pragma to make everything defined inline
+mkValidator :: BuiltinData -> BuiltinData -> BuiltinData -> ()
+mkValidator _ _ _ = ()
+```
+
+(also note that all Plutus Prelude functions that are meant to be used for on-chain code should also have this INLINABLE pragma, for the same reason)
+
+We also need to define the validator hash:
+
+```
+valHash :: Ledger.ValidatorHash
+valHash = Scripts.validatorHash validator
+```
+
+and the script address:
+
+```
+scrAddress :: Ledger.Address
+scrAddress = scriptAddress validator
+```
+
