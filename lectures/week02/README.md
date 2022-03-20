@@ -39,10 +39,10 @@ validator = mkValidatorScript $$(PlutusTx.compile [|| mkValidator ||])
 where the oxford brackets ``[|| mkValidator ||]`` takes a haskell expresion, (the source code of mkValidator) and turns it into something of type syntax tree of that expresion and then the splice ``$$`` takes a syntax tree and 'splices' it into source code at that point.
 
 So, \
-``mkValidator`` is haskell source code, a haskell expresion, \
+```mkValidator``` is haskell source code, a haskell expresion, \
 ``[|| mkValidator ||]`` is of type haskell code syntax tree, \
 ``PlutusTx.compile [|| mkValidator ||]`` is of type PlutusCore syntax tree, \
 and \
 ``$$(PlutusTx.compile [|| mkValidator ||])`` is of type PlutusCore source code, PlutusCore expresion. \
 Finally, \
-``mkValidatorScript`` takes that PlutusCore expresion and turns it into a ``Validator``.
+``mkValidatorScript`` takes that PlutusCore expresion and turns it into a ```Validator```.
