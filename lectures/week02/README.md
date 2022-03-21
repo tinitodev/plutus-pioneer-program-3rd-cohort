@@ -6,9 +6,9 @@ On-chain code is about validation and 'lives' on the blockchain. Off-chain code 
 
 ## On-Chain code
 
-### Datum, Redeemer, ScriptContext
+## Untyped Validator Scripts
 
-### Untyped Validator Scripts
+### Datum, Redeemer, ScriptContext
 
 The low-level representation of these 3 pieces of data (in untyped validation scripts) comes from plutus module PlutusTx.TH, and is called <b>BuiltinData</b> (equivalent to datatype <b>Data</b> defined in plutus-core-0.1.0.0:PlutusCore.Data, but only for on-chain code) [See Docs](https://playground.plutus.iohkdev.io/doc/haddock/plutus-tx/html/PlutusTx.html#t:BuiltinData).
 
@@ -71,3 +71,7 @@ scrAddress :: Ledger.Address
 scrAddress = scriptAddress validator
 ```
 
+(here Scripts comes from Ledger.Scripts)
+
+
+[See more (typed validation script)](notes/WEEK_02.md)
