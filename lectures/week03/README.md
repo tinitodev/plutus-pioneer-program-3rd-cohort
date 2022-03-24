@@ -47,9 +47,9 @@ LowerBound (Extended a) Closure
 
 where Closure is just a Bool to specify if we include the boundary or not and Extended is either:
 ```
-NegInf	 
-Finite a	 
-PosInf	 
+NegInf 
+Finite a
+PosInf 
 ```
 (-/+ infinite, or Finite a)
 
@@ -83,6 +83,9 @@ contains :: Ord a => Interval a -> Interval a -> Bool
 Example of Intervals with Integers:
 ```
 Prelude> import Plutus.V1.Ledger.Interval
+
+Interval
+[10, 20]
 Prelude> interval (10 :: Integer) 20
 Interval { ivFrom = LowerBound (Finite 10) True, ivTo = UpperBound (Finite 20) True }
 
@@ -110,6 +113,8 @@ Prelude> member 21 $ interval (10 :: Integer) 20
 False
 
 
+From 
+[30 , +Infinite)
 Prelude> from (30 :: Integer)
 Interval {ivFrom = LowerBound (Finite 30) True, ivTo = UpperBound PosInf True}
 
@@ -121,6 +126,8 @@ Prelude> member 3000 $ from (30 :: Integer)
 True
 
 
+To
+(-Infinite to 30]
 Prelude> to (30 :: Integer)
 Interval {ivFrom = LowerBound NegInf True, ivTo = UpperBound (Finite 30) True}
 
@@ -134,4 +141,25 @@ Prelude> member 7 $ to (30 :: Integer)
 True
 Prelude> member (-7) $ to (30 :: Integer)
 True
+
+
+Intersection
+[10,20] inter [18, 30] = [18, 20]
+
+Prelude> intersection (interval (10 :: Integer) 20) $ interval 18 30
+Interval {ivFrom = LowerBound (Finite 18) True, ivTo = UpperBound (Finite 20) True}
+
+
+Contains and Overlaps
+
+Prelude> contains (to (100 :: Integer)) $ interval 30 80
+True
+Prelude> contains (to (100 :: Integer)) $ interval 30 100
+True
+Prelude> contains (to (100 :: Integer)) $ interval 30 101
+False
+Prelude> overlaps (to (100 :: Integer)) $ interval 30 101
+True
+Prelude> overlaps (to (100 :: Integer)) $ interval 101 110
+False
 ```
