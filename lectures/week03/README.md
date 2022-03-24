@@ -67,6 +67,71 @@ from :: a -> Interval a
 
 to :: a -> Interval a
 (interval from genesis to parameter)
+
+intersection :: Ord a => Interval a -> Interval a -> Interval a
+('intersection a b' is the largest interval that is contained in a and in b, if it exists)
+
+overlaps :: (Enum a, Ord a) => Interval a -> Interval a -> Bool
+(Check whether two intervals overlap, that is, whether there is a value that is a member of both intervals)
+
+contains :: Ord a => Interval a -> Interval a -> Bool
+(a contains b is true if the Interval b is entirely contained in a. That is, a contains b if for every entry s, if member s b then member s a)
 ```
 
+[See docs](https://playground.plutus.iohkdev.io/doc/haddock/plutus-ledger-api/html/Plutus-V1-Ledger-Interval.html#t:Extended)
 
+Example of Intervals with Integers:
+```
+Prelude> import Plutus.V1.Ledger.Interval
+Prelude> interval (10 :: Integer) 20
+Interval { ivFrom = LowerBound (Finite 10) True, ivTo = UpperBound (Finite 20) True }
+
+(means Integer interval from 10, included, to 20 included)
+
+Prelude> member 9 $ interval (10 :: Integer) 20
+False
+Prelude> member 12 $ interval (10 :: Integer) 20
+True
+Prelude> member 10 $ interval (10 :: Integer) 20
+True
+Prelude> member 20 $ interval (10 :: Integer) 20
+True
+Prelude> member 21 $ interval (10 :: Integer) 20
+False
+Prelude> member 9 $ interval (10 :: Integer) 20
+False
+Prelude> member 10 $ interval (10 :: Integer) 20
+True
+Prelude> member 12 $ interval (10 :: Integer) 20
+True
+Prelude> member 20 $ interval (10 :: Integer) 20
+True
+Prelude> member 21 $ interval (10 :: Integer) 20
+False
+
+
+Prelude> from (30 :: Integer)
+Interval {ivFrom = LowerBound (Finite 30) True, ivTo = UpperBound PosInf True}
+
+Prelude> member 21 $ from (30 :: Integer)
+False
+Prelude> member 30 $ from (30 :: Integer)
+True
+Prelude> member 3000 $ from (30 :: Integer)
+True
+
+
+Prelude> to (30 :: Integer)
+Interval {ivFrom = LowerBound NegInf True, ivTo = UpperBound (Finite 30) True}
+
+Prelude> member 31 $ to (30 :: Integer)
+False
+Prelude> member 30 $ to (30 :: Integer)
+True
+Prelude> member 29 $ to (30 :: Integer)
+True
+Prelude> member 7 $ to (30 :: Integer)
+True
+Prelude> member (-7) $ to (30 :: Integer)
+True
+```
