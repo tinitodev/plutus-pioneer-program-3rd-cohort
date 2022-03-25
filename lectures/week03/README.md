@@ -91,6 +91,9 @@ Interval { ivFrom = LowerBound (Finite 10) True, ivTo = UpperBound (Finite 20) T
 
 (means Integer interval from 10, included, to 20 included)
 
+
+Member
+
 Prelude> member 9 $ interval (10 :: Integer) 20
 False
 Prelude> member 12 $ interval (10 :: Integer) 20
