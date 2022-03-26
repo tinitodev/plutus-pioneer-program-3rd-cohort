@@ -166,3 +166,5 @@ True
 Prelude> overlaps (to (100 :: Integer)) $ interval 101 110
 False
 ```
+
+[See more (vesting example)](notes/WEEK_03.md)
