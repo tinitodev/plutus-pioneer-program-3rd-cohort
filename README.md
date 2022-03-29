@@ -7,7 +7,10 @@
 [Week-05](lectures/week05/) \
 [Week-06](lectures/week06/) \
 [Week-07](lectures/week07/) \
-[Week-08](lectures/week08/) 
+[Week-08](lectures/week08/) \
+[Week-09](lectures/week09/) \
+[Week-10](lectures/week10/) 
+
 
 
 ## Initial Setup
