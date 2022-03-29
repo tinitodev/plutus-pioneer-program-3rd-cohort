@@ -121,3 +121,6 @@ where
 
 IsSuitable takes the pkh and the currentTime and has to consider 2 cases: the case when the utxo has only the DatumHash and not the actual Datum itself (in which case we cannot do anything as we cannot guess the Datum), and the case where the utxo provides the actual Datum in addition to the DatumHash. \
 In the case that we count with the Datum, we try to de-serialize it to the correct datatype (VestingDatum) and if it fails we also drop the utxo. But if it succeeds, we check that we are the beneficiary and that the deadline is in the past (deadline <= now).
+
+
+[See more (parameterized example)](PARAMETERIZED.md)
