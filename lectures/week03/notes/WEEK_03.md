@@ -5,7 +5,7 @@
 
 In this example the validator script receives a PaymentPubKeyHash (payment public key hash) and a POSIXTime as Datum. The PubKeyHash is indicating the beneficiary (the person that has permissions to withdraw the funds) and the POSIXTime is the deadline (in this case is indicating that the beneficiary can only withdraw AFTER the deadline is reached).
 
-```
+```haskell
 data VestingDatum = VestingDatum
     { beneficiary :: PaymentPubKeyHash
     , deadline    :: POSIXTime
@@ -32,7 +32,7 @@ As you can see, we use two helper functions (signedByBeneficiary and deadlineRea
 
 For checking who signed the Tx we can use the already defined 'txSignedBy' that receives a TXInfo and a PubKeyHash and returns true if the Tx was signed by the owner of the PubKeyHash. We have to 'unwrap' it with unPaymentPubKeyHash to turn PaymentPubKeyHash into simply PubKeyHash (although the underlying type is the same, PaymentPubKeyHash is just a wrapper to PubKeyHash to be able to make a distinction).
 
-```
+```haskell
 type PaymentPubKeyHash :: *
 newtype PaymentPubKeyHash = PaymentPubKeyHash {unPaymentPubKeyHash :: PubKeyHash}
 -- Defined in ‘Ledger.Address’
@@ -49,7 +49,7 @@ To check the deadline was reached we can just ask if the txInfoValidRange is con
 
 We define GiveParams with the params we need to make a give action, being those: the beneficiary, the deadline and the amount we want to send to the script address.
 
-```
+```haskell
 data GiveParams = GiveParams
     { gpBeneficiary :: !PaymentPubKeyHash
     , gpDeadline    :: !POSIXTime
@@ -79,7 +79,7 @@ As you can see, the give endpoint just receives the params and creates a Tx with
 
 On the other hand, the grab endpoint doesn't need any params:
 
-```
+```haskell
 grab :: forall w s e. AsContractError e => Contract w s e ()
 grab = do
     now   <- currentTime
@@ -109,7 +109,7 @@ Then we submit tx, await for confirmation, and log a message.
 
 ### isSuitable
 
-```
+```haskell
 where
     isSuitable :: PaymentPubKeyHash -> POSIXTime -> ChainIndexTxOut -> Bool
     isSuitable pkh now o = case _ciTxOutDatum o of

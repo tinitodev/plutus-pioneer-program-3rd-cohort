@@ -8,7 +8,7 @@ In order to represent values more accurately in a more 'strongly-typed' fashion,
 
 Example:
 
-```
+```haskell
 {-# INLINABLE mkValidator #-}
 mkValidator :: () -> Integer -> ScriptContext -> Bool
 mkValidator _ r _ = traceIfFalse "wrong redeemer" $ r == 42
@@ -20,7 +20,7 @@ We can use ``traceIfFalse`` to trace/log when certain validation is false. This 
 
 Also, as you can see below there is some extra boilerplate needed for typed validators:
 
-```
+```haskell
 data Typed
 instance Scripts.ValidatorTypes Typed where
     type instance DatumType Typed = ()
@@ -50,7 +50,7 @@ And then for compiling to PlutusCore as before we need to use Scripts.mkTypedVal
 
 Examples:
 
-```
+```haskell
 toData () -> Constr 0 []
 fromData (Constr 0 []) :: Maybe ()-> Just ()
 
@@ -64,11 +64,11 @@ fromData (List []) :: Maybe Integer -> Nothing
 
 In order to use the isData Class with our own custom types, we need to add the following to add an instance of this class for our type (defined in-place at compile time)
 
-```
-Example, we have:
+```haskell
+--Example, we have:
 newtype MySillyRedeemer = MySillyRedeemer Integer
 
-We need to add:
+--We need to add:
 PlutusTx.unstableMakeIsData ''MySillyRedeemer
 ```
 

@@ -16,7 +16,7 @@ The low-level representation of these 3 pieces of data (in untyped validation sc
 
 So for <b>Untyped Validator Scripts</b> the function signature would be something like this:
 
-```
+```haskell
 mkValidator :: BuiltinData ->  BuiltinData -> BuiltinData -> ()
 mkValidator datum redeemer context = 
 ```
@@ -31,7 +31,7 @@ type ``Validator``.
 
 (*template Haskell is like a Macro that is expanded before the compiler runs)
 
-```
+```haskell
 validator :: Validator
 validator = mkValidatorScript $$(PlutusTx.compile [|| mkValidator ||])
 ```
@@ -49,7 +49,7 @@ Finally, \
 
 In order for the oxford brackets ``[|| mkValidator ||]`` to work, mkValidator has to be definded inline, meaning it cannot reference auxiliar functions or expresions from other parts of the code (like libraries, etc). For that reason we need to add the following <i>Pragma</i> to the definition so everything is defined inline:
 
-```
+```haskell
 {-# INLINABLE mkValidator #-} <-- add this pragma to make everything defined inline
 mkValidator :: BuiltinData -> BuiltinData -> BuiltinData -> ()
 mkValidator _ _ _ = ()
@@ -59,14 +59,14 @@ mkValidator _ _ _ = ()
 
 We also need to define the validator hash:
 
-```
+```haskell
 valHash :: Ledger.ValidatorHash
 valHash = Scripts.validatorHash validator
 ```
 
 and the script address:
 
-```
+```haskell
 scrAddress :: Ledger.Address
 scrAddress = scriptAddress validator
 ```

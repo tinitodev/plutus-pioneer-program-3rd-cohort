@@ -12,7 +12,7 @@ Having said that, it is pretty convinient to use Haskell and take advantage of m
 In Haskell we generally define this Schema type for the Endpoints we want to 'expose' to the 'user'.\
 For example, we can define:
 
-```
+```haskell
 type GiftSchema =
             Endpoint "give" Integer
         .\/ Endpoint "grab" ()
@@ -21,11 +21,11 @@ type GiftSchema =
 where 'give' and 'grab' are the two endpoints/actions we want to provide to the user (people interacting with this contract).
 
 
-### Endpoints 
+### Endpoints
 
 After defining the Schema, we need to define the actual behaviour for this endpoints:
 
-```
+```haskell
 give :: AsContractError e => Integer -> Contract w s e ()
 give amount = do
     let tx = mustPayToOtherScript valHash (Datum $ Builtins.mkI 0) $ Ada.lovelaceValueOf amount
@@ -37,7 +37,7 @@ give amount = do
 here <i>give</i> receives an amount (to send) and defines a tx with the Constraint  ``mustPayToOtherScript valHash (Datum $ Builtins.mkI 0) $ Ada.lovelaceValueOf amount`` meaning the output is to a 'script address' with the hash of the one we defined earlier (valHash), the Datum in this case doesn't matter (is an arbitrary one), and the amount in lovelace received as a parameter. \
 Then we submit the Tx, wait for confirmation and print a log message.
 
-```
+```haskell
 grab :: forall w s e. AsContractError e => Contract w s e ()
 grab = do
     utxos <- utxosAt scrAddress
@@ -60,7 +60,7 @@ Then we submit the Tx providing not only the tx itself, but also the lookups (co
 
 We can combine all this functionality into this <b>endpoints</b> function, making available the endpoints and blocking execution waiting for the user to choose and provide parameters when needed or just pressing continue.
 
-```
+```haskell
 endpoints :: Contract () GiftSchema Text ()
 endpoints = awaitPromise (give' `select` grab') >> endpoints
   where

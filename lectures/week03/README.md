@@ -27,26 +27,26 @@ By default, all transactions use the 'infite time range' meaning they are always
 
 POSIXTimeRange
 
-```
+```haskell
 typetype POSIXTimeRange = Interval POSIXTime
 ```
 
 where Interval:
 
-```
-Interval	 
-ivFrom :: LowerBound a	 
-ivTo :: UpperBound a	 
+```haskell
+Interval
+ivFrom :: LowerBound a 
+ivTo :: UpperBound a 
 ```
 
 and LowerBound:
 
-```
+```haskell
 LowerBound (Extended a) Closure	 
 ```
 
 where Closure is just a Bool to specify if we include the boundary or not and Extended is either:
-```
+```haskell
 NegInf 
 Finite a
 PosInf 
@@ -55,44 +55,44 @@ PosInf
 
 Useful functions:
 
-```
+```haskell
 member :: Ord a => a -> Interval a -> Bool
-(checks if a given time is included in the interval)
+--(checks if a given time is included in the interval)
 
 interval :: a -> a -> Interval a
-(returns a interval with the two parameters as included upper/lower boundaries)
+--(returns a interval with the two parameters as included upper/lower boundaries)
 
 from :: a -> Interval a
-(interval from parameter to eternity)
+--(interval from parameter to eternity)
 
 to :: a -> Interval a
-(interval from genesis to parameter)
+--(interval from genesis to parameter)
 
 intersection :: Ord a => Interval a -> Interval a -> Interval a
-('intersection a b' is the largest interval that is contained in a and in b, if it exists)
+--('intersection a b' is the largest interval that is contained in a and in b, if it exists)
 
 overlaps :: (Enum a, Ord a) => Interval a -> Interval a -> Bool
-(Check whether two intervals overlap, that is, whether there is a value that is a member of both intervals)
+--(Check whether two intervals overlap, that is, whether there is a value that is a member of both intervals)
 
 contains :: Ord a => Interval a -> Interval a -> Bool
-(a contains b is true if the Interval b is entirely contained in a. That is, a contains b if for every entry s, if member s b then member s a)
+--(a contains b is true if the Interval b is entirely contained in a. That is, a contains b if for every entry s, if member s b then member s a)
 ```
 
 [See docs](https://playground.plutus.iohkdev.io/doc/haddock/plutus-ledger-api/html/Plutus-V1-Ledger-Interval.html#t:Extended)
 
 Example of Intervals with Integers:
-```
+```haskell
 Prelude> import Plutus.V1.Ledger.Interval
 
-Interval
-[10, 20]
+--Interval
+--[10, 20]
 Prelude> interval (10 :: Integer) 20
 Interval { ivFrom = LowerBound (Finite 10) True, ivTo = UpperBound (Finite 20) True }
 
-(means Integer interval from 10, included, to 20 included)
+--(means Integer interval from 10, included, to 20 included)
 
 
-Member
+--Member
 
 Prelude> member 9 $ interval (10 :: Integer) 20
 False
@@ -116,8 +116,8 @@ Prelude> member 21 $ interval (10 :: Integer) 20
 False
 
 
-From 
-[30 , +Infinite)
+--From 
+--[30 , +Infinite)
 Prelude> from (30 :: Integer)
 Interval {ivFrom = LowerBound (Finite 30) True, ivTo = UpperBound PosInf True}
 
@@ -129,7 +129,7 @@ Prelude> member 3000 $ from (30 :: Integer)
 True
 
 
-To
+--To
 (-Infinite to 30]
 Prelude> to (30 :: Integer)
 Interval {ivFrom = LowerBound NegInf True, ivTo = UpperBound (Finite 30) True}
@@ -146,14 +146,14 @@ Prelude> member (-7) $ to (30 :: Integer)
 True
 
 
-Intersection
+--Intersection
 [10,20] inter [18, 30] = [18, 20]
 
 Prelude> intersection (interval (10 :: Integer) 20) $ interval 18 30
 Interval {ivFrom = LowerBound (Finite 18) True, ivTo = UpperBound (Finite 20) True}
 
 
-Contains and Overlaps
+--Contains and Overlaps
 
 Prelude> contains (to (100 :: Integer)) $ interval 30 80
 True
