@@ -49,7 +49,7 @@ typedValidator p = Scripts.mkTypedValidator @Vesting
     wrap = Scripts.wrapValidator @() @()
 ```
 
-(Note that everything inside `[|| oxford brackets ||]` needs to be known at compile time, so we cannot just do `[|| mkValidator p ||]`, cause we don't know 'p' at compile time. For that reason we need to use `PlutusTx.liftCode p` and then `applyCode` to the compiled version of `mkValidator`, see image below)
+(Note that everything inside the oxford brackets `[||   ||]` needs to be known at compile time, so we cannot just do `[|| mkValidator p ||]`, cause we don't know `p` at compile time. For that reason we need to use `PlutusTx.liftCode p` and then `applyCode` to the compiled version of `mkValidator`, see image below)
 
 ![Compile mkValidator with params](img/compile-mkvalidator.png)
 
@@ -79,3 +79,7 @@ valHash = Scripts.validatorHash . typedValidator
 scrAddress :: VestingParam -> Ledger.Address
 scrAddress = scriptAddress . validator
 ```
+
+
+
+[See more (deploy to Testnet)](DEPLOY_TO_TESTNET.md)
