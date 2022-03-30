@@ -32,8 +32,8 @@ mkValidator p () () ctx = traceIfFalse "beneficiary's signature missing" signedB
     deadlineReached = contains (from $ deadline p) $ txInfoValidRange info
 ```
 
-The logic inside the validator keeps the same, only chaange is now we don't need to read the Datum, we get the values from the params.  \
-And the boilerplate for 'compiling' the script to Plutus changes just a little bit:
+The logic inside the validator keeps the same, only change is now we don't need to read the Datum, we get the values from the params.  \
+And the boilerplate for 'compiling' the script to Plutus changes just a little bit, cause now we have to receive an argument which in this case is VestingParam:
 
 ```haskell
 data Vesting
@@ -49,3 +49,33 @@ typedValidator p = Scripts.mkTypedValidator @Vesting
     wrap = Scripts.wrapValidator @() @()
 ```
 
+(Note that everything inside `[|| oxford brackets ||]` needs to be known at compile time, so we cannot just do `[|| mkValidator p ||]`, cause we don't know 'p' at compile time. For that reason we need to use `PlutusTx.liftCode p` and then `applyCode` to the compiled version of `mkValidator`, see image below)
+
+![Compile mkValidator with params](img/compile-mkvalidator.png)
+
+
+Here we just use function composition:
+
+```haskell
+validator :: VestingParam -> Validator
+validator = Scripts.validatorScript . typedValidator
+```
+
+so we actually have:
+```haskell
+validator p = Scripts.validatorScript $ typedValidator p
+```
+but we can turn it to just:
+```haskell
+validator = Scripts.validatorScript . typedValidator
+```
+
+The same for the other two:
+
+```haskell
+valHash :: VestingParam -> Ledger.ValidatorHash
+valHash = Scripts.validatorHash . typedValidator
+
+scrAddress :: VestingParam -> Ledger.Address
+scrAddress = scriptAddress . validator
+```
