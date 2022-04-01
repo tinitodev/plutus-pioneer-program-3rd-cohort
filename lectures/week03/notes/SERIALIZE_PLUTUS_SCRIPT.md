@@ -53,3 +53,5 @@ Now that we have generated the binary (serialized script) in 'vesting.plutus' fi
 ```bash
 $ cardano-cli address build-script --script-file vesting.plutus --testnet-magic 1097911063 --out-file vesting.addr
 ```
+
+[See more (interacting with the script)](INTERACTIONS_WITH_SCRIPT.md)
