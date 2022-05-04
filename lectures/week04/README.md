@@ -2,7 +2,7 @@
 
 ## Off-Chain Code
 
-### The Contract Monad
+### Monads
 
 Haskell is a "pure functional language" and it has the property of "referential transparency" (in general, there are some exceptions).
 
@@ -44,7 +44,7 @@ Foo :: IO Int
 ```
 which means that now Foo is not a pure-function anymore, but now is like a 'recipe' to calculate a Int that can have side-effects.
 
-Is VERY important to note, that "referential transparency" is maintain and is not broken by this. Now, when invoking/calling Foo we don't get an Int, we get the 'recipe' to calculate that Int.
+Is VERY important to note, that "referential transparency" is maintained and is not broken by this. Now, when invoking/calling Foo we don't get an Int, we get the 'recipe' to calculate that Int.
 
 In Haskell, only the 'main' function (entry point), can execute this so called I/O actions.
 
@@ -60,3 +60,4 @@ main = putStrLn "Hello world!!"
 is a 'recipe' that can have side-effects (in this case writting to console) and returns () (Unit), meaning it doesn't return anything, the only important part are the side-effects.
 
 
+[See more](notes/WEEK_04.md)
