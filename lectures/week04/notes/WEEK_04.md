@@ -57,6 +57,18 @@ This operator also chains the 'recipes' but does NOT ignore the result of the fi
 (>>=) :: Monad m => m a -> (a -> m b) -> m b 
 ```
 
+this means that if I have a 'recipe' that has side-effects and produces an A, and I have a function that given an A gives me a 'recipe' that also has side-effects and returns a B, then I can combine both to have a 'recipe' that produces a B.
+
+
+Example of this with IO:
+
+```haskell
+getLine :: IO [Char]
+putStrLn :: [Char] -> IO ()
+
+getLine >>= putStrLn :: IO ()
+```
+
 
 
 
