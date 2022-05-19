@@ -69,6 +69,81 @@ putStrLn :: [Char] -> IO ()
 getLine >>= putStrLn :: IO ()
 ```
 
+### Return
+
+This function takes a value and inmediately returns a monad wrapping that value without any side-effects.
+
+```haskell
+return :: Monad m => a -> m a 
+```
+
+### Maybe
+
+The Maybe type, is a type constructor similar to what other languages call Option type.
+
+```haskell
+data Maybe a = Nothing | Just a
+```
+
+For example, let's say I want to write a function that takes 3 strings, each one representing an integer and I want to return the sum of the 3 numbers. This is a very simple operation but what if any of the strings is an invalid number (NAN). In that case we cannot compute the sum, we need to stop the computation and return an "exception", meaning we can return `Nothing`. 
+
+We can use `readMaybe` from `Text.Read` to turn a String into a Int whenever that parse is posible to do:
+
+```haskell
+readMaybe :: String -> Maybe Int
+```
+
+```haskell
+foo :: String -> String -> String -> Maybe Int
+foo x y z = case readMaybe x of
+    Nothing -> Nothing
+    Just k  -> case readMaybe y of
+        Nothing -> Nothing
+        Just l  -> case readMaybe z of
+            Nothing -> Nothing
+            Just m  -> Just (k + l + m)
+```
+
+In this case, returning `Maybe Int` means we return the sum as an Int if everything went ok, or Nothing if something went wrong (e.g. invalid inputs, string that doesn't represent a valid integer).
+
+### Either
+
+Either is another data type constructor, that takes two data types, and represents the posibility of having one type or the other:
+
+```haskell
+data Either a b = Left a | Right b
+```
+
+For example:
+
+```haskell
+Left "Haskell" :: Either String Int
+and also
+Right 7 :: Either String Int
+```
+
+Following with the example for Maybe (if we want to write a function that takes 3 Strings and returns the sum as an Int), we can have something like this:
+
+```haskell
+readEither :: Read a => String -> Either String a
+readEither s = case readMaybe s of
+    Nothing -> Left $ "can't parse: " ++ s
+    Just a  -> Right a
+
+foo :: String -> String -> String -> Either String Int
+foo x y z = case readEither x of
+    Left err -> Left err
+    Right k  -> case readEither y of
+        Left err -> Left err
+        Right l  -> case readEither z of
+            Left err -> Left err
+            Right m  -> Right (k + l + m)
+```
+
+Note that in this case, instead of returning just Nothing when something goes wrong, we can return a String with an error message.
+
+
+
 
 
 
